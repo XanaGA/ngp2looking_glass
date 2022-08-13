@@ -1,0 +1,4 @@
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp fox 48 420 560 -d 4.5
+
+
+
