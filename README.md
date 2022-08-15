@@ -118,5 +118,5 @@ Rendering the video quilt. You must have a trained scene, a camera trajectory an
 
 Displaying the gui for checking trajectory and rendering the video quilt. You must have a trained scene, a camera trajectory and provide the distance:
 ```
-./video2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5 --debug -p
+./video2quilt.sh /mnt/c/Users/user/instant-ngp example 60 5 420 560 --distance 4.5 --debug -p
 ```
