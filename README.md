@@ -50,10 +50,12 @@ Note that the user has to specify the distance from the camera choosen to the ce
 
 IMAGEN MOVING CAMERA
 
-### Help display
-Help screenshot
+### Help display (click to expand)
+
+![n2q_help](https://user-images.githubusercontent.com/88030501/184600521-d0772d81-81cc-416c-b6f8-c66800a5eab5.png)
 
 ### Examples
+
 
 
 ## Video
@@ -65,5 +67,15 @@ In reality we get a quilt for each frame and then put them together to form a vi
 Note that ideally the camera should remain at the same distance from the center of the scene at every frame because of the focal point problem we mentioned above.
 
 **Improvement:** A further improvement would be ask the user to intoduce one distance per each camera pose insted of only one for the whole video. Then we could interpolate (as we do with the scale, fov, dof, etc.) those distances to get an aproximation on where the user want the focus to be.
+
+### Help display (click to expand)
+
+![v2q_help](https://user-images.githubusercontent.com/88030501/184600621-27af9ece-922f-4dd5-bfab-0672adcf0aee.png)
+
+### Note about video trajectory
+
+To get the quilt video we have to get a quilt image for each frame. For this reason we reconstruct the trajectory storing a pose for each frame. This reconstruction is not exactly the same as the trajectory provided by the instant npg-gui, but you can change the shape using the smoothing parameter (-s|--smoothing) and see the results using the option --debug. See the difference below:
+
+![both_traj](https://user-images.githubusercontent.com/88030501/184602223-54791e6d-aa9c-4df7-b23d-8ff4985b167b.png)
 
 ### Examples
