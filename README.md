@@ -57,7 +57,25 @@ Note that the user has to specify the distance from the camera choosen to the ce
 
 ### Examples
 
+Training the scene from scratch, choosing the central camera and determining the distance to the center of the scene:
+```
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --train
+```
 
+Already trained scene, choosing the central camera and determining the distance to the center of the scene:
+```
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --choose
+```
+
+Rendering the image quilt. You must have a trained scene, a central camera and provide the distance:
+```
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5
+```
+
+Displaying the gui for checking cameras and rendering the image quilt. You must have a trained scene, a central camera and provide the distance:
+```
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5 --debug
+```
 
 ## Video
 Given a camera trajectory from the user, we get an video where that we can display in the device and view it from different angles.
