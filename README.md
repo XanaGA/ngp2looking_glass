@@ -49,7 +49,7 @@ The script simply takes the camera pose provided and stores a camera trajectory 
 
 Note that the user has to specify the distance from the camera choosen to the center of the scene. The center will have better quality and the rest will be more blurry. For example, in the fox scene we would like to consider the center to be approximately inside the fox head. You can check it by moving the camera from his position to the desidered center, as follows:
 
-IMAGEN MOVING CAMERA
+![move_cam](https://user-images.githubusercontent.com/88030501/184606230-b465899a-eea4-48a9-93f4-1f7e8f595a39.png)
 
 ### Help display (click to expand)
 
