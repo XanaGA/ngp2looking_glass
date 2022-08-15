@@ -1,5 +1,6 @@
 # ngp2looking_glass
-LOOKINGLASS VIDEO
+
+![demo_gif](https://user-images.githubusercontent.com/88030501/184605868-1b2fba01-dbcf-4c12-b59d-aafa56d0bda0.gif)
 
 A collection of scripts to display ngp scenes in Looking Glass displays.
 This is the Linux version of the project, if you whish to use the Windows version through WSL you can check the windows branch.
