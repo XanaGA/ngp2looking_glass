@@ -57,24 +57,26 @@ Note that the user has to specify the distance from the camera choosen to the ce
 
 ### Examples
 
+All the examples are for the portrait display, this is why the option -p|--portrait is present.
+
 Training the scene from scratch, choosing the central camera and determining the distance to the center of the scene:
 ```
-./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --train
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --train -p
 ```
 
 Already trained scene, choosing the central camera and determining the distance to the center of the scene:
 ```
-./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --choose
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --choose -p
 ```
 
 Rendering the image quilt. You must have a trained scene, a central camera and provide the distance:
 ```
-./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5 -p
 ```
 
 Displaying the gui for checking cameras and rendering the image quilt. You must have a trained scene, a central camera and provide the distance:
 ```
-./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5 --debug
+./nerf2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5 --debug -p
 ```
 
 ## Video
@@ -98,3 +100,23 @@ To get the quilt video we have to get a quilt image for each frame. For this rea
 ![both_traj](https://user-images.githubusercontent.com/88030501/184602223-54791e6d-aa9c-4df7-b23d-8ff4985b167b.png)
 
 ### Examples
+
+Training the scene from scratch, choosing the central camera and determining the trajectory:
+```
+./video2quilt.sh /mnt/c/Users/user/instant-ngp example 60 5 420 560 --train -p
+```
+
+Already trained scene, choosing the camera trajectory and determining the distance to the center of the scene:
+```
+./video2quilt.sh /mnt/c/Users/user/instant-ngp example 60 5 420 560 --chose -p
+```
+
+Rendering the video quilt. You must have a trained scene, a camera trajectory and provide the distance:
+```
+./video2quilt.sh /mnt/c/Users/user/instant-ngp example 60 5 420 560 --distance 4.5 -p
+```
+
+Displaying the gui for checking trajectory and rendering the video quilt. You must have a trained scene, a camera trajectory and provide the distance:
+```
+./video2quilt.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5 --debug -p
+```
