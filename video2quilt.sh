@@ -239,8 +239,6 @@ fi
 mkdir -p data/$OUT_NAME
 
 # Render the frames using the python script provided
-# This may fail in WSL depending on how you build the instant-ngp project. 
-# If so, use the first_part.sh execute this script from a windows terminal and then the second_part.sh
 cd_persist $PATH_NGP
 
 for (( i = 0; i < $FRAMES; i++ )) 
@@ -249,7 +247,7 @@ do
   printf -v INDEX "%04d" $i
   mkdir -p $LG_DIR/data/$OUT_NAME/tmp_$INDEX"_frame" # Create a temporal dir for this frame
   CAM=$INDEX"_quilt.json"
-  #python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/fox/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/$CAM --video_n_seconds 1 --video_fps $F_QUILT --width $WIDTH --height $HEIGH --video_output $LG_DIR/data/$OUT_NAME/tmp_$INDEX"_frame"/z_$INDEX$OUT_NAME.mp4 
+  python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/fox/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/$CAM --video_n_seconds 1 --video_fps $F_QUILT --width $WIDTH --height $HEIGH --video_output $LG_DIR/data/$OUT_NAME/tmp_$INDEX"_frame"/z_$INDEX$OUT_NAME.mp4 
 
 done
 
@@ -279,33 +277,33 @@ do
   # Command for every row
   CMD=""
   FILES=""
-#   for file in $tmp_dir/*
-#   do
-#     if [ $COUNTER -lt $FRAMES]
-#     then
-#         FILES+=" $file"
-#     else 
-#         break
-#     fi
+  for file in $tmp_dir/*
+  do
+    if [ $COUNTER -lt $FRAMES]
+    then
+        FILES+=" $file"
+    else 
+        break
+    fi
 
-#     if [[ $(((COUNTER+1)%$COL)) -eq 0 ]]
-#     then 
-#         CMD+="convert $FILES +append $tmp_dir/row$((ROWS-(COUNTER+1)/COL)).png & "
-#         FILES=""
-#     fi
-#     COUNTER=$((COUNTER+1))
-#   done
+    if [[ $(((COUNTER+1)%$COL)) -eq 0 ]]
+    then 
+        CMD+="convert $FILES +append $tmp_dir/row$((ROWS-(COUNTER+1)/COL)).png & "
+        FILES=""
+    fi
+    COUNTER=$((COUNTER+1))
+  done
 
-#   echo $CMD
+  echo $CMD
 
-#   eval "$CMD"
+  eval "$CMD"
 
-#   if [[ $(((i+1)%5)) -eq 0 ]]
-#   then 
-#       wait
-#   fi
+  if [[ $(((i+1)%5)) -eq 0 ]]
+  then 
+      wait
+  fi
 
-#   i=$((i+1))
+  i=$((i+1))
 
 done
 
@@ -333,7 +331,7 @@ done
 wait # wait until all the quilt files have been created
 
 # Gather all the quilts in a video
-ffmpeg -r $FRAME_R -f image2 -s $WIDTH"x"$HEIGH -i quilt_%04d.png -vcodec libx265 -crf 25  -pix_fmt yuv420p OUT_NAME"_qs$COL"x"$ROWS"a"$ASPECT_RATIO.mp4"
+ffmpeg -r $FRAME_R -f image2 -s $WIDTH"x"$HEIGH -i quilt_%04d.png -vcodec libx265 -crf 25  -pix_fmt yuv420p $OUT_NAME"_qs$COL"x"$ROWS"a"$ASPECT_RATIO.mp4"
 
 #endregion
 
