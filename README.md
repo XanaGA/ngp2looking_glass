@@ -3,13 +3,27 @@
 ![demo_gif](https://user-images.githubusercontent.com/88030501/184605868-1b2fba01-dbcf-4c12-b59d-aafa56d0bda0.gif)
 
 A collection of scripts to display ngp scenes in Looking Glass displays.
-This is the Linux version of the project, if you whish to use the Windows version through WSL you can check the windows branch.
+This is the **Windows branch**, and is conceived to be run in WSL. Please read the specific section to see the differences.
 
 These scripts create an image/video in quilt format that you can use in the [Looking Glass Studio](https://lookingglassfactory.com/software).
 
 In this readme I also provide an explanantion of what the scripts are doing. You can skip that and just run them modifying the provided examples. Nevertheless, it is recommended to read that part, specially if you want to tweak or augment any script. 
 
 **NOTE**: The program will launch the instant-ngp GUI, but you should read the messages in the command line as they will provide instructions about what steps you have to follow.
+
+## Windows branch
+The only difference in the `nerf2quilt.sh` and `video2quilt.sh` files is that the file `testbed` is changed for `testbed.exe`. Although, depending on how you build your instant ngp you may find difficulties/errors to run those scripts. Those are cause while trying to run the `run.py` script from the WSL. As you ptobably have build the instant-ngp for linux the program won't find the `pyngp` library. To workaround that we splitted the `nerf2quilt.sh` in two parts: `first_part.sh` and `second_part.sh`. The way to execute those would be:
+```
+# On WSL
+./firts_part.sh /mnt/c/Users/user/instant-ngp example 48 420 560 --distance 4.5
+
+# On Windows Power Shell
+# You will have to change $PATH_TO_LG$ to the path to the ngp2looking _glass directory in the `--video_output option`
+python scripts/run.py --mode nerf --scene data/nerf/example --load_snapshot data/nerf/example/example_snap.msgpack --video_camera_path data/nerf/example/Quilt/0000_quilt.json --video_n_seconds 1 --video_fps 48 --width 420 --height 560 --video_output $PATH_TO_LG$/looking_glass/example/example.mp4
+
+# On WSL
+./second_part.sh /mnt/c/Users/user/instant-ngp example 48
+```
 
 ## Testing
 This has been tested on the Looking Glass Portrait (the only device I have access to). I'm not even sure if the other displays support Looking Glass Studio, but you are encouraged to try them!
