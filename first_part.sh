@@ -114,7 +114,7 @@ then
 
 else
     echo 
-    echo "You already have a trained scene? If not use the option --choose|-ch"
+    echo "You already have a trained scene and a camera position? If not use the option --choose|-ch"
     echo
 fi
 
@@ -123,7 +123,6 @@ do
   echo
   echo "Load your camera and check the distance to the center of the scene."
   echo 
-  # This may fail in WSL in windows
   ./build/testbed.exe --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack
   echo
   echo "Introduce the distance to the center of the scene."
@@ -136,11 +135,16 @@ cd_persist $LG_DIR
 HALF_ANGLE=$(echo $ANGLE/2.0 | bc -l)
 
 # Call the python script to save the cammera trajectory
+if [[ ! -d $PATH_NGP/data/nerf/$OUT_NAME/Quilt ]]
+then
+  mkdir $PATH_NGP/data/nerf/$OUT_NAME/Quilt
+fi
+
 if [ $CURVE ]
 then
-    python scripts/cameras.py $PATH_NGP/data/nerf/$OUT_NAME/$OUT_NAME\_cam.json $PATH_NGP/data/nerf/$OUT_NAME/$OUT_NAME\_snap_cam.json $DIST $HALF_ANGLE --arc 
+    python scripts/cam_traj.py $PATH_NGP/data/nerf/$OUT_NAME/$OUT_NAME\_snap_traj.json $PATH_NGP/data/nerf/$OUT_NAME/Quilt/ $DIST $HALF_ANGLE --arc 
 else
-    python scripts/cameras.py $PATH_NGP/data/nerf/$OUT_NAME/$OUT_NAME\_cam.json $PATH_NGP/data/nerf/$OUT_NAME/$OUT_NAME\_snap_cam.json $DIST $HALF_ANGLE
+    python scripts/cam_traj.py $PATH_NGP/data/nerf/$OUT_NAME/$OUT_NAME\_snap_traj.json $PATH_NGP/data/nerf/$OUT_NAME/Quilt/ $DIST $HALF_ANGLE
 fi
 
 if [ $DEBUG ]
@@ -148,9 +152,8 @@ then
   cd_persist $PATH_NGP
 
   echo
-  echo "Load the camera $OUT_NAME"_snap_cam".json."
+  echo "Load the camera Quilt/0000_quilt.json."
   echo 
-  # This may fail in WSL in windows
   ./build/testbed.exe --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack
   echo
 
@@ -167,53 +170,8 @@ then
   mkdir $OUT_NAME
 fi
 
-# Render the frames using the python script provided
-# This may fail in WSL depending on how you build the instant-ngp project. 
-# If so, use the first_part.sh execute this script from a windows terminal and then the second_part.sh
-cd_persist $PATH_NGP
-python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/fox/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/$OUT_NAME\_cam_full.json --video_n_seconds 1 --video_fps $FRAMES --width $WIDTH --height $HEIGH --video_output $LG_DIR/$OUT_NAME.mp4
-
-# Make sure you are back in looking glass folder
-cd_persist $LG_DIR
-
-ffmpeg -i "$OUT_NAME/$OUT_NAME.mp4" "$OUT_NAME/%02d.png"
-
-#endregion
-
-#region ConvertToQuilt
-cd_persist $OUT_NAME
-
-COUNTER=0
-START=0
-
-# Command for every row
-CMD=""
-FILES=""
-pwd
-for file in ./*
-do
-    if [ $COUNTER -lt $((START+FRAMES)) ]
-    then
-        FILES+=" $file"
-    else 
-        break
-    fi
-
-    if [[ $(((COUNTER+1)%$COL)) -eq 0 ]]
-    then 
-        CMD+="convert $FILES +append row$((ROWS-(COUNTER+1)/COL)).png & "
-        FILES=""
-    fi
-    COUNTER=$((COUNTER+1))
-done
-
-echo $CMD
-
-eval "$CMD"
-
-wait
-
-convert row0.png row1.png row2.png row3.png row4.png row5.png -append $OUT_NAME"_qs$COL"x"$ROWS"a"$ASPECT_RATIO.png"
-rm -rf row?.png
-
-#endregion
+echo
+echo "Execute the following command in a a windows (not WLS terminal) and the run the second part"
+echo "It must be executed in $PATH_NGP"
+echo "NOTE that you have to change the path to the looking glass directory for the --video_output. It has to be the windows path, not the WSL"
+echo python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/0000_quilt.json --video_n_seconds 1 --video_fps $FRAMES --width $WIDTH --height $HEIGH --video_output \$PATH_TO_LG\$/looking_glass/$OUT_NAME/$OUT_NAME.mp4

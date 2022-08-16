@@ -143,12 +143,12 @@ cd_persist $PATH_NGP
 if [ $TRAIN ]
 then
   echo
-  echo "Executing ./build/testbed --scene data/nerf/$OUT_NAME"
+  echo "Executing ./build/testbed.exe --scene data/nerf/$OUT_NAME"
   echo "Save the camera trajectory as $OUT_NAME"_traj".json"
   echo "Save the snapshot as $OUT_NAME"_snap".msgpack"
   echo "Check the distance to the center of the scene"
   echo 
-  ./build/testbed --scene data/nerf/$OUT_NAME
+  ./build/testbed.exe --scene data/nerf/$OUT_NAME
   echo
   echo "Introduce the distance to the center of the scene."
   read DIST
@@ -162,11 +162,11 @@ fi
 if [[ $CHOOSE && ! $TRAIN ]]
 then
   echo
-  echo "Executing ./build/testbed --scene data/nerf/$OUT_NAME"
+  echo "Executing ./build/testbed.exe --scene data/nerf/$OUT_NAME"
   echo "Save the camera trajectory as $OUT_NAME"_traj".json"
   echo "Check the distance to the center of the scene"
   echo 
-  ./build/testbed --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack > /dev/null
+  ./build/testbed.exe --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack > /dev/null
   echo
   echo "Introduce the distance to the center of the scene."
   read DIST
@@ -182,7 +182,7 @@ do
   echo
   echo "Load your trajectory and choose a distance to the center of the scene. COMMON for all the cameras."
   echo 
-  ./build/testbed --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack > /dev/null
+  ./build/testbed.exe --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack > /dev/null
   echo
   echo "Introduce the distance to the center of the scene."
   read DIST
@@ -205,7 +205,7 @@ then
   echo
   echo "Load the camera $OUT_NAME"_snap_traj".json."
   echo 
-  ./build/testbed --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack > /dev/null
+  ./build/testbed.exe --scene data/nerf/$OUT_NAME --snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack > /dev/null
   echo
 
   cd_persist $LG_DIR
@@ -239,6 +239,8 @@ fi
 mkdir -p data/$OUT_NAME
 
 # Render the frames using the python script provided
+# This may fail in WSL depending on how you build the instant-ngp project. 
+# If so, use the first_part.sh execute this script from a windows terminal and then the second_part.sh
 cd_persist $PATH_NGP
 
 for (( i = 0; i < $FRAMES; i++ )) 
@@ -247,7 +249,7 @@ do
   printf -v INDEX "%04d" $i
   mkdir -p $LG_DIR/data/$OUT_NAME/tmp_$INDEX"_frame" # Create a temporal dir for this frame
   CAM=$INDEX"_quilt.json"
-  python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/fox/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/$CAM --video_n_seconds 1 --video_fps $F_QUILT --width $WIDTH --height $HEIGH --video_output $LG_DIR/data/$OUT_NAME/tmp_$INDEX"_frame"/z_$INDEX$OUT_NAME.mp4 
+  #python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/fox/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/$CAM --video_n_seconds 1 --video_fps $F_QUILT --width $WIDTH --height $HEIGH --video_output $LG_DIR/data/$OUT_NAME/tmp_$INDEX"_frame"/z_$INDEX$OUT_NAME.mp4 
 
 done
 
@@ -331,7 +333,7 @@ done
 wait # wait until all the quilt files have been created
 
 # Gather all the quilts in a video
-ffmpeg -r $FRAME_R -f image2 -s $WIDTH"x"$HEIGH -i quilt_%04d.png -vcodec libx265 -crf 25  -pix_fmt yuv420p $OUT_NAME"_qs$COL"x"$ROWS"a"$ASPECT_RATIO.mp4"
+ffmpeg -r $FRAME_R -f image2 -s $WIDTH"x"$HEIGH -i quilt_%04d.png -vcodec libx265 -crf 25  -pix_fmt yuv420p OUT_NAME"_qs$COL"x"$ROWS"a"$ASPECT_RATIO.mp4"
 
 #endregion
 
