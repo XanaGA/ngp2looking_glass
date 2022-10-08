@@ -174,4 +174,4 @@ echo
 echo "Execute the following command in a a windows (not WLS terminal) and the run the second part"
 echo "It must be executed in $PATH_NGP"
 echo "NOTE that you have to change the path to the looking glass directory for the --video_output. It has to be the windows path, not the WSL"
-echo python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/0000_quilt.json --video_n_seconds 1 --video_fps $FRAMES --width $WIDTH --height $HEIGH --video_output \$PATH_TO_LG\$/looking_glass/$OUT_NAME/$OUT_NAME.mp4
+echo python scripts/run.py --mode nerf --scene data/nerf/$OUT_NAME --load_snapshot data/nerf/$OUT_NAME/$OUT_NAME"_snap".msgpack --video_camera_path data/nerf/$OUT_NAME/Quilt/0000_quilt.json --video_n_seconds 1 --video_fps $FRAMES --width $WIDTH --height $HEIGH --video_output \$PATH_TO_LG\$/$OUT_NAME/$OUT_NAME.mp4
