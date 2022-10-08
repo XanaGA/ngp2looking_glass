@@ -19,7 +19,7 @@ The only difference in the `nerf2quilt.sh` and `video2quilt.sh` files is that th
 
 # On Windows Power Shell
 # You will have to change $PATH_TO_LG$ to the path to the ngp2looking _glass directory in the `--video_output option`
-python scripts/run.py --mode nerf --scene data/nerf/example --load_snapshot data/nerf/example/example_snap.msgpack --video_camera_path data/nerf/example/Quilt/0000_quilt.json --video_n_seconds 1 --video_fps 48 --width 420 --height 560 --video_output $PATH_TO_LG$/looking_glass/example/example.mp4
+python scripts/run.py --mode nerf --scene data/nerf/example --load_snapshot data/nerf/example/example_snap.msgpack --video_camera_path data/nerf/example/Quilt/0000_quilt.json --video_n_seconds 1 --video_fps 48 --width 420 --height 560 --video_output $PATH_TO_LG$/example/example.mp4
 
 # On WSL
 ./second_part.sh /mnt/c/Users/user/instant-ngp example 48
